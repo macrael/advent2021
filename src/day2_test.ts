@@ -8,8 +8,6 @@ Deno.test('parsing', () => {
         'down 5',
         'forward 8',
         'up 3',
-        // 'down 8',
-        // 'forward 2',
     ]
 
     const p = parseTape(ins)
