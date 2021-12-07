@@ -2,6 +2,7 @@ import { readLines } from './lib.ts'
 import { parseTape, runMisreadProgram, runAimProgram } from './day2.ts'
 import { gammaRate, calculateGE, oxygenRating } from './day3.ts'
 import { loadRoom, firstWinner, lastWinner, scoreWinner } from './day4.ts'
+import { chartLines, countOverlaps, chartDiagsToo } from './day5.ts'
 
 async function day2() {
     const inputs = await Deno.readTextFile('src/data/2.txt')
@@ -56,6 +57,23 @@ async function day4() {
 
 }
 
+async function day5() {
+
+    const lines =await readLines('src/data/5.txt')
+
+    const chart = chartLines(lines)
+    const overlaps = countOverlaps(chart)
+
+    console.log("Day 5a: ", { overlaps })
+
+    const diagsChart = chartDiagsToo(lines)
+    const diagsOverlaps = countOverlaps(diagsChart)
+
+    console.log("Day 5b: ", { diagsOverlaps })
+
+}
+
 day2()
 day3()
 day4()
+day5()
