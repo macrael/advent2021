@@ -1,79 +1,88 @@
-import { readLines } from './lib.ts'
-import { parseTape, runMisreadProgram, runAimProgram } from './day2.ts'
-import { gammaRate, calculateGE, oxygenRating } from './day3.ts'
-import { loadRoom, firstWinner, lastWinner, scoreWinner } from './day4.ts'
-import { chartLines, countOverlaps, chartDiagsToo } from './day5.ts'
+import { readLines } from "./lib.ts";
+import { parseTape, runAimProgram, runMisreadProgram } from "./day2.ts";
+import { calculateGE, gammaRate, oxygenRating } from "./day3.ts";
+import { firstWinner, lastWinner, loadRoom, scoreWinner } from "./day4.ts";
+import { chartDiagsToo, chartLines, countOverlaps } from "./day5.ts";
+import { fishTickTock, tickTockCounter, sumCounts } from "./day6.ts";
 
 async function day2() {
-    const inputs = await Deno.readTextFile('src/data/2.txt')
-    const lines = inputs.trim().split('\n')
+  const inputs = await Deno.readTextFile("src/data/2.txt");
+  const lines = inputs.trim().split("\n");
 
-    const p = parseTape(lines)
-    const sub = runMisreadProgram(p)
+  const p = parseTape(lines);
+  const sub = runMisreadProgram(p);
 
-    const sum = sub.depth * sub.horizontal
-    console.log('Day 2a: misread', {sub, sum})
+  const sum = sub.depth * sub.horizontal;
+  console.log("Day 2a: misread", { sub, sum });
 
-    const trueSub = runAimProgram(p)
+  const trueSub = runAimProgram(p);
 
-    const aimSum = trueSub.depth * trueSub.horizontal
-    console.log('Day 2b: aimed', { trueSub, aimSum })
-
+  const aimSum = trueSub.depth * trueSub.horizontal;
+  console.log("Day 2b: aimed", { trueSub, aimSum });
 }
 
 async function day3() {
+  const lines = await readLines("src/data/3.txt");
 
-    const lines =await readLines('src/data/3.txt')
+  const gamma = gammaRate(lines);
+  const [g, e] = calculateGE(gamma);
+  const power = g * e;
 
-    const gamma = gammaRate(lines)
-    const [g, e] = calculateGE(gamma)
-    const power = g * e
+  console.log("Day 3a: ", { g, e, power });
 
-    console.log("Day 3a: ", {g, e, power})
+  const o2 = oxygenRating(lines);
+  const co2 = oxygenRating(lines, true);
+  const gen = o2 * co2;
 
-    const o2 = oxygenRating(lines)
-    const co2 = oxygenRating(lines, true)
-    const gen = o2 * co2
-
-    console.log("Day 3b: ", {o2, co2, gen})
-
+  console.log("Day 3b: ", { o2, co2, gen });
 }
 
 async function day4() {
-    const inputs = await Deno.readTextFile('src/data/4.txt')
+  const inputs = await Deno.readTextFile("src/data/4.txt");
 
-    const room = loadRoom(inputs.trim())
-    const winner = firstWinner(room)
-    const score = scoreWinner(winner)
+  const room = loadRoom(inputs.trim());
+  const winner = firstWinner(room);
+  const score = scoreWinner(winner);
 
-    console.log("Day 4a: ", { lastNum: winner.lastNumber, score })
+  console.log("Day 4a: ", { lastNum: winner.lastNumber, score });
 
+  const loseRoom = loadRoom(inputs.trim());
+  const loser = lastWinner(loseRoom);
+  const loserScore = scoreWinner(loser);
 
-    const loseRoom = loadRoom(inputs.trim())
-    const loser = lastWinner(loseRoom)
-    const loserScore = scoreWinner(loser)
-
-    console.log("Day 4b: ", {lastNum: loser.lastNumber, loserScore})
-
+  console.log("Day 4b: ", { lastNum: loser.lastNumber, loserScore });
 }
 
 async function day5() {
+  const lines = await readLines("src/data/5.txt");
 
-    const lines =await readLines('src/data/5.txt')
+  const chart = chartLines(lines);
+  const overlaps = countOverlaps(chart);
 
-    const chart = chartLines(lines)
-    const overlaps = countOverlaps(chart)
+  console.log("Day 5a: ", { overlaps });
 
-    console.log("Day 5a: ", { overlaps })
+  const diagsChart = chartDiagsToo(lines);
+  const diagsOverlaps = countOverlaps(diagsChart);
 
-    const diagsChart = chartDiagsToo(lines)
-    const diagsOverlaps = countOverlaps(diagsChart)
-
-    console.log("Day 5b: ", { diagsOverlaps })
-
+  console.log("Day 5b: ", { diagsOverlaps });
 }
 
-day2()
-day3()
-day4()
-day5()
+async function day6() {
+  const inputs = await Deno.readTextFile("src/data/6.txt");
+
+  const initialFish = inputs.trim().split(',').map(Number)
+
+  const day80 = fishTickTock(initialFish, 80)
+
+  console.log("Day 6a: ", { day80: day80.length });
+
+  const day256 = tickTockCounter(initialFish, 256)
+
+  console.log("Day 6b ", { day256: sumCounts(day256) });
+}
+
+day2();
+day3();
+day4();
+day5();
+day6();
