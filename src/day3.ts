@@ -27,7 +27,7 @@ export function calculateGE(gamma: string): [number, number] {
     return [bin, inverted]
 }
 
-export function oxygenRating(diags: string[], invert: boolean = false): number {
+export function oxygenRating(diags: string[], invert = false): number {
 
     let idx = 0
     let o2s = diags

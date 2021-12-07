@@ -1,6 +1,3 @@
-const foo: string = 'foobar'
-
-console.log(`hello ${foo}!`)
 
 function countIncreases(depths: number[]): number {
 
@@ -17,7 +14,7 @@ function countIncreases(depths: number[]): number {
     return largerCount
 }
 
-async function day1a() {
+export async function day1a() {
     const input1a = await Deno.readTextFile('src/data/1a.txt')
 
     const depths = input1a.trim().split('\n').map((d) => parseInt(d))
@@ -50,7 +47,7 @@ export function makeWindows(depths: number[]): number[] {
 
 
 
-async function day1b() {
+export async function day1b() {
     const input1a = await Deno.readTextFile('src/data/1a.txt')
 
     const depths = input1a.trim().split('\n').map((d) => parseInt(d))

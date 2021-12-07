@@ -1,6 +1,7 @@
 import { readLines } from './lib.ts'
 import { parseTape, runMisreadProgram, runAimProgram } from './day2.ts'
 import { gammaRate, calculateGE, oxygenRating } from './day3.ts'
+import { loadRoom, firstWinner, lastWinner, scoreWinner } from './day4.ts'
 
 async function day2() {
     const inputs = await Deno.readTextFile('src/data/2.txt')
@@ -37,5 +38,24 @@ async function day3() {
 
 }
 
+async function day4() {
+    const inputs = await Deno.readTextFile('src/data/4.txt')
+
+    const room = loadRoom(inputs.trim())
+    const winner = firstWinner(room)
+    const score = scoreWinner(winner)
+
+    console.log("Day 4a: ", { lastNum: winner.lastNumber, score })
+
+
+    const loseRoom = loadRoom(inputs.trim())
+    const loser = lastWinner(loseRoom)
+    const loserScore = scoreWinner(loser)
+
+    console.log("Day 4b: ", {lastNum: loser.lastNumber, loserScore})
+
+}
+
 day2()
 day3()
+day4()
