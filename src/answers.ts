@@ -3,7 +3,8 @@ import { parseTape, runAimProgram, runMisreadProgram } from "./day2.ts";
 import { calculateGE, gammaRate, oxygenRating } from "./day3.ts";
 import { firstWinner, lastWinner, loadRoom, scoreWinner } from "./day4.ts";
 import { chartDiagsToo, chartLines, countOverlaps } from "./day5.ts";
-import { fishTickTock, tickTockCounter, sumCounts } from "./day6.ts";
+import { fishTickTock, sumCounts, tickTockCounter } from "./day6.ts";
+import { cheapestAccurateAlignment, cheapestAlignment } from "./day7.ts";
 
 async function day2() {
   const inputs = await Deno.readTextFile("src/data/2.txt");
@@ -70,15 +71,29 @@ async function day5() {
 async function day6() {
   const inputs = await Deno.readTextFile("src/data/6.txt");
 
-  const initialFish = inputs.trim().split(',').map(Number)
+  const initialFish = inputs.trim().split(",").map(Number);
 
-  const day80 = fishTickTock(initialFish, 80)
+  const day80 = fishTickTock(initialFish, 80);
 
   console.log("Day 6a: ", { day80: day80.length });
 
-  const day256 = tickTockCounter(initialFish, 256)
+  const day256 = tickTockCounter(initialFish, 256);
 
   console.log("Day 6b ", { day256: sumCounts(day256) });
+}
+
+async function day7() {
+  const inputs = await Deno.readTextFile("src/data/7.txt");
+
+  const crabs = inputs.trim().split(",").map(Number);
+
+  const cheap = cheapestAlignment(crabs);
+
+  console.log("Day 7a: ", { cheap });
+
+  const lessCheap = cheapestAccurateAlignment(crabs);
+
+  console.log("Day 7b: ", { lessCheap });
 }
 
 day2();
@@ -86,3 +101,4 @@ day3();
 day4();
 day5();
 day6();
+day7();

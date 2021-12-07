@@ -2,12 +2,12 @@ import { assertEquals } from "https://deno.land/std@0.116.0/testing/asserts.ts";
 import {
   checkBoard,
   firstWinner,
+  lastWinner,
   loadBoard,
   loadRoom,
   playNumber,
   printBoard,
   scoreWinner,
-  lastWinner,
 } from "./day4.ts";
 
 Deno.test("load board", () => {
@@ -154,8 +154,8 @@ Deno.test("play to lose", () => {
 
   const winner = lastWinner(room);
 
-  console.log("that inner", winner.lastNumber)
-  printBoard(winner.board)
+  console.log("that inner", winner.lastNumber);
+  printBoard(winner.board);
 
   assertEquals(scoreWinner(winner), 1924);
 });
@@ -171,10 +171,10 @@ Deno.test("thats not a winner", () => {
 
   const b = loadBoard(ins);
 
-  const nums = [6,69,28,50,36,84,49,13,48,90,1,33,71,0]
+  const nums = [6, 69, 28, 50, 36, 84, 49, 13, 48, 90, 1, 33, 71, 0];
 
   for (const num of nums) {
-    playNumber(b, num)
+    playNumber(b, num);
   }
 
   printBoard(b);
