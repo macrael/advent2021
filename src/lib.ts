@@ -4,3 +4,7 @@ export async function readLines(filename: string): Promise<string[]> {
 
   return lines;
 }
+
+export function sum(nums: number[]):  number {
+    return nums.reduce((acc, n) => acc + n, 0)
+}

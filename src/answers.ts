@@ -1,10 +1,12 @@
-import { readLines } from "./lib.ts";
+import { readLines, sum } from "./lib.ts";
 import { parseTape, runAimProgram, runMisreadProgram } from "./day2.ts";
 import { calculateGE, gammaRate, oxygenRating } from "./day3.ts";
 import { firstWinner, lastWinner, loadRoom, scoreWinner } from "./day4.ts";
 import { chartDiagsToo, chartLines, countOverlaps } from "./day5.ts";
 import { fishTickTock, sumCounts, tickTockCounter } from "./day6.ts";
 import { cheapestAccurateAlignment, cheapestAlignment } from "./day7.ts";
+import { countEasyOnes, readWiring, solveMystery } from "./day8.ts";
+import { localMinima, parseMap, localMinimaPts, basin } from "./day9.ts";
 
 async function day2() {
   const inputs = await Deno.readTextFile("src/data/2.txt");
@@ -14,12 +16,12 @@ async function day2() {
   const sub = runMisreadProgram(p);
 
   const sum = sub.depth * sub.horizontal;
-  console.log("Day 2a: misread", { sub, sum });
+  console.log("Day 2a: ", { sub, sum });
 
   const trueSub = runAimProgram(p);
 
   const aimSum = trueSub.depth * trueSub.horizontal;
-  console.log("Day 2b: aimed", { trueSub, aimSum });
+  console.log("Day 2b: ", { trueSub, aimSum });
 }
 
 async function day3() {
@@ -79,7 +81,7 @@ async function day6() {
 
   const day256 = tickTockCounter(initialFish, 256);
 
-  console.log("Day 6b ", { day256: sumCounts(day256) });
+  console.log("Day 6b: ", { day256: sumCounts(day256) });
 }
 
 async function day7() {
@@ -96,9 +98,48 @@ async function day7() {
   console.log("Day 7b: ", { lessCheap });
 }
 
+async function day8() {
+  const lines = await readLines("src/data/8.txt");
+
+  const mystery = readWiring(lines);
+  const easies = countEasyOnes(mystery);
+
+  console.log("Day 8a: ", { easies });
+
+  const allDigits = mystery.map((m) => solveMystery(m));
+
+  const sum = allDigits.reduce((acc, d) => acc + d, 0);
+  console.log("Day 8b: ", { sum });
+}
+
+async function day9() {
+  const inputs = await Deno.readTextFile("src/data/9.txt");
+  const square = inputs.trim();
+
+  const map = parseMap(square);
+
+  const mins = localMinima(map);
+
+  const powerLevel = sum(mins.map((m) => m + 1));
+
+  console.log("Day 9a: ", { powerLevel });
+
+  const minpts = localMinimaPts(map);
+
+  const basins = minpts.map((min) => basin(map, min[0], min[1]));
+
+  const sizes = basins.map((b) => b.length);
+  const topThree = sizes.sort((a, b) => b - a).splice(0, 3);
+
+  const mult = topThree.reduce((acc, l) => acc * l, 1);
+  console.log("Day 9b: ", { mult })
+}
+
 day2();
 day3();
 day4();
 day5();
 day6();
 day7();
+day8();
+day9();
