@@ -6,7 +6,8 @@ import { chartDiagsToo, chartLines, countOverlaps } from "./day5.ts";
 import { fishTickTock, sumCounts, tickTockCounter } from "./day6.ts";
 import { cheapestAccurateAlignment, cheapestAlignment } from "./day7.ts";
 import { countEasyOnes, readWiring, solveMystery } from "./day8.ts";
-import { localMinima, parseMap, localMinimaPts, basin } from "./day9.ts";
+import { basin, localMinima, localMinimaPts, parseMap } from "./day9.ts";
+import { CorruptedError, countCorruptedPoints, parseLine, countCompletionPoints } from "./day10.ts";
 
 async function day2() {
   const inputs = await Deno.readTextFile("src/data/2.txt");
@@ -132,7 +133,30 @@ async function day9() {
   const topThree = sizes.sort((a, b) => b - a).splice(0, 3);
 
   const mult = topThree.reduce((acc, l) => acc * l, 1);
-  console.log("Day 9b: ", { mult })
+  console.log("Day 9b: ", { mult });
+}
+
+async function day10() {
+  const lines = await readLines("src/data/10.txt");
+  const results = lines.map((l) => parseLine(l));
+  const corrupted = results.filter((r) =>
+    r instanceof CorruptedError
+  ) as CorruptedError[];
+
+  const corruptedPoints = countCorruptedPoints(corrupted);
+
+  console.log("Day10a: ", { corruptedPoints });
+
+  const completions = results.filter(r => typeof r === 'string') as string[]
+
+  const scores = completions.map(c => countCompletionPoints(c))
+
+  scores.sort((a, b) => a - b)
+  const middleIDX = Math.floor(scores.length / 2)
+  const middle = scores[middleIDX]
+
+  console.log("Day10b: ", { middle })
+
 }
 
 day2();
@@ -143,3 +167,4 @@ day6();
 day7();
 day8();
 day9();
+day10();
