@@ -7,7 +7,16 @@ import { fishTickTock, sumCounts, tickTockCounter } from "./day6.ts";
 import { cheapestAccurateAlignment, cheapestAlignment } from "./day7.ts";
 import { countEasyOnes, readWiring, solveMystery } from "./day8.ts";
 import { basin, localMinima, localMinimaPts, parseMap } from "./day9.ts";
-import { CorruptedError, countCorruptedPoints, parseLine, countCompletionPoints } from "./day10.ts";
+import {
+  CorruptedError,
+  countCompletionPoints,
+  countCorruptedPoints,
+  parseLine,
+} from "./day10.ts";
+import { countFlashes, firstSyncFlash, parseStartingInput } from "./day11.ts";
+import { buildGraph, spelunking, confidentSplunking } from "./day12.ts";
+import { setupPaper, foldit, countDots, viewPaper, foldAll } from "./day13.ts";
+import { readExpanse, expandX, calculateStats, expandForty } from './day14.ts'
 
 async function day2() {
   const inputs = await Deno.readTextFile("src/data/2.txt");
@@ -147,24 +156,88 @@ async function day10() {
 
   console.log("Day10a: ", { corruptedPoints });
 
-  const completions = results.filter(r => typeof r === 'string') as string[]
+  const completions = results.filter((r) => typeof r === "string") as string[];
 
-  const scores = completions.map(c => countCompletionPoints(c))
+  const scores = completions.map((c) => countCompletionPoints(c));
 
-  scores.sort((a, b) => a - b)
-  const middleIDX = Math.floor(scores.length / 2)
-  const middle = scores[middleIDX]
+  scores.sort((a, b) => a - b);
+  const middleIDX = Math.floor(scores.length / 2);
+  const middle = scores[middleIDX];
 
-  console.log("Day10b: ", { middle })
+  console.log("Day10b: ", { middle });
+}
+
+async function day11() {
+  const inputs = await Deno.readTextFile("src/data/11.txt");
+
+  const onehundreadoctos = parseStartingInput(inputs);
+  const flashes = countFlashes(onehundreadoctos, 100);
+
+  console.log("Day11a: ", { flashes });
+
+  const allTogetherOctos = parseStartingInput(inputs);
+  const firstTogether = firstSyncFlash(allTogetherOctos);
+
+  console.log("Day11b: ", { firstTogether });
+}
+
+async function day12() {
+  const lines = await readLines("src/data/12.txt");
+  const bigCave = buildGraph(lines);
+
+  const allPaths = spelunking(bigCave);
+  const pathsCount = allPaths.length;
+  console.log("Day12a: ", { pathsCount });
+
+  const confidentPaths = confidentSplunking(bigCave);
+  const confidentCount = confidentPaths.length;
+  console.log("Day12b: ", { confidentCount });
+}
+
+async function day13() {
+  const inputs = await Deno.readTextFile("src/data/13.txt");
+
+  const origami = setupPaper(inputs.trim());
+  const firstFold = foldit(origami.paper, origami.instructions[0])
+
+  const firstCount = countDots(firstFold)
+
+  console.log("Day13a: ", { firstCount });
+
+  const final = foldAll(origami)
+  // console.log(viewPaper(final))
+
+  console.log("Day13b: ", { 'letters': 'LGHEGUEJ'})
 
 }
 
-day2();
-day3();
-day4();
-day5();
-day6();
-day7();
-day8();
-day9();
-day10();
+async function day14() {
+
+  const inputs = await readLines("src/data/14.txt");
+
+  const [base, rules] = readExpanse(inputs)
+
+  const tenX = expandX(base, rules)
+  const stats = calculateStats(tenX)
+
+  console.log("day14a: ", { stats })
+
+  const fortyX = expandForty(base, rules)
+
+  console.log("day14a: ", { fortyX })
+
+}
+
+// day2();
+// day3();
+// day4();
+// day5();
+// day6();
+// day7();
+// day8();
+// day9();
+// day10();
+// day11();
+// day12();
+day13();
+day14(); 
