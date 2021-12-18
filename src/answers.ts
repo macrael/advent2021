@@ -19,6 +19,7 @@ import { countDots, foldAll, foldit, setupPaper } from "./day13.ts";
 import { calculateStats, expandForty, expandX, readExpanse } from "./day14.ts";
 import { parseGraph, safestPath, parseFullCave } from "./day15.ts";
 import { parsePacket, sumVersions, computePacket } from "./day16.ts"
+import { readSnailNumber, addSnails, magnitude, maxMag } from "./day18.ts";
 
 async function day2() {
   const inputs = await Deno.readTextFile("src/data/2.txt");
@@ -262,6 +263,25 @@ function day17() {
   console.log("Day17b: ", {count: 2326})
 }
 
+async function day18() {
+
+  const inputs = await readLines("src/data/18.txt");
+  const snails = inputs.map(readSnailNumber)
+
+  const head = snails[0]
+  const tail = snails.splice(1)
+
+  const sum = tail.reduce((acc, snail) => addSnails(acc, snail), head)
+  const mag = magnitude(sum)
+
+  console.log("Day18a: ", {mag})
+
+  const biggestPair = maxMag(inputs)
+
+  console.log("Day18b: ", {biggestPair})
+
+}
+
 // day2();
 // day3();
 // day4();
@@ -276,4 +296,6 @@ function day17() {
 // day13();
 // day14();
 // day15();
-day16();
+// day16();
+// day17();
+day18();
