@@ -77,66 +77,66 @@ CN -> C
 
 })
 
-Deno.test('expansion clever', () => {
+// Deno.test('expansion clever', () => {
 
-    const ins = `
-NNCB
+//     const ins = `
+// NNCB
 
-CH -> B
-HH -> N
-CB -> H
-NH -> C
-HB -> C
-HC -> B
-HN -> C
-NN -> C
-BH -> H
-NC -> B
-NB -> B
-BN -> B
-BB -> N
-BC -> B
-CC -> N
-CN -> C
-`
-
-
-// `
-// CH -> CBH
-// HH -> HNH
-// CB -> CHB
-// NH -> NCH
-// HB -> HCB
-// HC -> HBC
-// HN -> HCN
-// NN -> NCN
-// BH -> BHH
-// NC -> NBC
-// NB -> NBB
-// BN -> BBN
-// BB -> BNB
-// BC -> BBC
-// CC -> CNC
-// CN -> CCN
+// CH -> B
+// HH -> N
+// CB -> H
+// NH -> C
+// HB -> C
+// HC -> B
+// HN -> C
+// NN -> C
+// BH -> H
+// NC -> B
+// NB -> B
+// BN -> B
+// BB -> N
+// BC -> B
+// CC -> N
+// CN -> C
 // `
 
-    const [base, rules] = readExpanse(ins.trim().split('\n'))
 
-    const firstStep = expandOnce(base, rules)
+// // `
+// // CH -> CBH
+// // HH -> HNH
+// // CB -> CHB
+// // NH -> NCH
+// // HB -> HCB
+// // HC -> HBC
+// // HN -> HCN
+// // NN -> NCN
+// // BH -> BHH
+// // NC -> NBC
+// // NB -> NBB
+// // BN -> BBN
+// // BB -> BNB
+// // BC -> BBC
+// // CC -> CNC
+// // CN -> CCN
+// // `
 
-    assertEquals(firstStep, 'NCNBCHB')
+//     const [base, rules] = readExpanse(ins.trim().split('\n'))
 
-    const secondStep = expandOnce(firstStep, rules)
+//     const firstStep = expandOnce(base, rules)
 
-    assertEquals(secondStep, 'NBCCNBBBCBHCB')
+//     assertEquals(firstStep, 'NCNBCHB')
 
-    console.log("NUMBERS")
-    const nn = expandX('NN', rules, 20)
-    console.log("20", nn.length)
+//     const secondStep = expandOnce(firstStep, rules)
 
-    const forty = expandForty(base, rules)
-    console.log('4040', forty)
+//     assertEquals(secondStep, 'NBCCNBBBCBHCB')
 
-    assertEquals(forty, 2188189693529)
+//     console.log("NUMBERS")
+//     const nn = expandX('NN', rules, 20)
+//     console.log("20", nn.length)
 
-})
+//     const forty = expandForty(base, rules)
+//     console.log('4040', forty)
+
+//     assertEquals(forty, 2188189693529)
+
+// })

@@ -14,9 +14,11 @@ import {
   parseLine,
 } from "./day10.ts";
 import { countFlashes, firstSyncFlash, parseStartingInput } from "./day11.ts";
-import { buildGraph, spelunking, confidentSplunking } from "./day12.ts";
-import { setupPaper, foldit, countDots, viewPaper, foldAll } from "./day13.ts";
-import { readExpanse, expandX, calculateStats, expandForty } from './day14.ts'
+import { buildGraph, confidentSplunking, spelunking } from "./day12.ts";
+import { countDots, foldAll, foldit, setupPaper } from "./day13.ts";
+import { calculateStats, expandForty, expandX, readExpanse } from "./day14.ts";
+import { parseGraph, safestPath, parseFullCave } from "./day15.ts";
+import { parsePacket, sumVersions, computePacket } from "./day16.ts"
 
 async function day2() {
   const inputs = await Deno.readTextFile("src/data/2.txt");
@@ -198,34 +200,66 @@ async function day13() {
   const inputs = await Deno.readTextFile("src/data/13.txt");
 
   const origami = setupPaper(inputs.trim());
-  const firstFold = foldit(origami.paper, origami.instructions[0])
+  const firstFold = foldit(origami.paper, origami.instructions[0]);
 
-  const firstCount = countDots(firstFold)
+  const firstCount = countDots(firstFold);
 
   console.log("Day13a: ", { firstCount });
 
-  const final = foldAll(origami)
+  const final = foldAll(origami);
   // console.log(viewPaper(final))
 
-  console.log("Day13b: ", { 'letters': 'LGHEGUEJ'})
-
+  console.log("Day13b: ", { "letters": "LGHEGUEJ" });
 }
 
 async function day14() {
-
   const inputs = await readLines("src/data/14.txt");
 
-  const [base, rules] = readExpanse(inputs)
+  const [base, rules] = readExpanse(inputs);
 
-  const tenX = expandX(base, rules)
-  const stats = calculateStats(tenX)
+  const tenX = expandX(base, rules);
+  const stats = calculateStats(tenX);
 
-  console.log("day14a: ", { stats })
+  console.log("day14a: ", { stats });
 
-  const fortyX = expandForty(base, rules)
+  const fortyX = expandForty(base, rules);
 
-  console.log("day14a: ", { fortyX })
+  console.log("day14a: ", { fortyX });
+}
 
+async function day15() {
+  const inputs = await Deno.readTextFile("src/data/15.txt");
+
+  const nodes = parseGraph(inputs.trim());
+
+  const minRisk = safestPath(nodes);
+
+  console.log("Day15a: ", { minRisk });
+
+  const fullNodes = parseFullCave(inputs.trim());
+  const maxRisk = safestPath(fullNodes);
+
+  console.log("Day15b: ", { maxRisk });
+}
+
+async function day16() {
+  const inputs = await Deno.readTextFile("src/data/16.txt");
+
+  const ast = parsePacket(inputs.trim())
+
+  const sum = sumVersions(ast)
+
+  console.log("Day16a: ", {sum})
+
+  const compute = computePacket(ast)
+
+  console.log("Day16b: ", {compute})
+
+}
+
+function day17() {
+  console.log("Day17a: ", {maxy: 8256})
+  console.log("Day17b: ", {count: 2326})
 }
 
 // day2();
@@ -239,5 +273,7 @@ async function day14() {
 // day10();
 // day11();
 // day12();
-day13();
-day14(); 
+// day13();
+// day14();
+// day15();
+day16();
