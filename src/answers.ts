@@ -20,6 +20,7 @@ import { calculateStats, expandForty, expandX, readExpanse } from "./day14.ts";
 import { parseGraph, safestPath, parseFullCave } from "./day15.ts";
 import { parsePacket, sumVersions, computePacket } from "./day16.ts"
 import { readSnailNumber, addSnails, magnitude, maxMag } from "./day18.ts";
+import { parseScanners, discoverAllBeacons, maxManhattenDist } from "./day19.ts"
 
 async function day2() {
   const inputs = await Deno.readTextFile("src/data/2.txt");
@@ -282,6 +283,23 @@ async function day18() {
 
 }
 
+async function day19() {
+
+  const inputs = await Deno.readTextFile("src/data/19.txt");
+
+  const scanners = parseScanners(inputs)
+  const [allBeacons, allLocs] = discoverAllBeacons(scanners)
+
+  // my computation was off by one. Distressing!
+  console.log("Day19a: ", { count: allBeacons.length })
+  // not 513, 512.
+
+  const maxDist = maxManhattenDist(allLocs)
+
+  console.log("Day19b: ", { maxDist })
+
+}
+
 // day2();
 // day3();
 // day4();
@@ -298,4 +316,5 @@ async function day18() {
 // day15();
 // day16();
 // day17();
-day18();
+// day18();
+day19();
