@@ -21,6 +21,7 @@ import { parseGraph, safestPath, parseFullCave } from "./day15.ts";
 import { parsePacket, sumVersions, computePacket } from "./day16.ts"
 import { readSnailNumber, addSnails, magnitude, maxMag } from "./day18.ts";
 import { parseScanners, discoverAllBeacons, maxManhattenDist } from "./day19.ts"
+import { loadedDie, playGame } from "./day21.ts"
 
 async function day2() {
   const inputs = await Deno.readTextFile("src/data/2.txt");
@@ -300,6 +301,14 @@ async function day19() {
 
 }
 
+function day21() {
+
+  const gamePlay = playGame(8, 3, loadedDie())
+
+  console.log("Day21a: ", {gamePlay})
+
+}
+
 // day2();
 // day3();
 // day4();
@@ -317,4 +326,5 @@ async function day19() {
 // day16();
 // day17();
 // day18();
-day19();
+// day19();
+day21()
