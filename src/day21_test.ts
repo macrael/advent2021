@@ -1,5 +1,5 @@
 import { assertEquals } from "https://deno.land/std@0.116.0/testing/asserts.ts";
-import { loadedDie, playGame, playQuantumGame } from "./day21.ts"
+import { loadedDie, playGame, playQuantumGame, playQuantumGameCached } from "./day21.ts"
 
 Deno.test('loaded dice', () => {
 
@@ -12,11 +12,11 @@ Deno.test('loaded dice', () => {
 
 Deno.test('freaky dice', () => {
 
-    const result = playQuantumGame(4, 8)
+    const result = playQuantumGameCached(4, 8)
 
     console.log("GOTEM", result)
 
-    assertEquals(result[0], 739785)
+    assertEquals(result[0], 444356092776315)
 
     
 })

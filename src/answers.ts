@@ -26,7 +26,7 @@ import {
   parseScanners,
 } from "./day19.ts";
 import { countPixels, enhanceImage, padImage, printImage, flipEdge } from "./day20.ts";
-import { loadedDie, playGame } from "./day21.ts"
+import { loadedDie, playGame, playQuantumGameCached } from "./day21.ts"
 
 async function day2() {
   const inputs = await Deno.readTextFile("src/data/2.txt");
@@ -344,6 +344,10 @@ function day21() {
   const gamePlay = playGame(8, 3, loadedDie())
 
   console.log("Day21a: ", {gamePlay})
+
+  const quantumGame = playQuantumGameCached(8, 3)
+
+  console.log("Day21b: ", {quantumGame})
 
 }
 
