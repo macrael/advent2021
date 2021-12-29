@@ -17,10 +17,15 @@ import { countFlashes, firstSyncFlash, parseStartingInput } from "./day11.ts";
 import { buildGraph, confidentSplunking, spelunking } from "./day12.ts";
 import { countDots, foldAll, foldit, setupPaper } from "./day13.ts";
 import { calculateStats, expandForty, expandX, readExpanse } from "./day14.ts";
-import { parseGraph, safestPath, parseFullCave } from "./day15.ts";
-import { parsePacket, sumVersions, computePacket } from "./day16.ts"
-import { readSnailNumber, addSnails, magnitude, maxMag } from "./day18.ts";
-import { parseScanners, discoverAllBeacons, maxManhattenDist } from "./day19.ts"
+import { parseFullCave, parseGraph, safestPath } from "./day15.ts";
+import { computePacket, parsePacket, sumVersions } from "./day16.ts";
+import { addSnails, magnitude, maxMag, readSnailNumber } from "./day18.ts";
+import {
+  discoverAllBeacons,
+  maxManhattenDist,
+  parseScanners,
+} from "./day19.ts";
+import { countPixels, enhanceImage, padImage, printImage, flipEdge } from "./day20.ts";
 
 async function day2() {
   const inputs = await Deno.readTextFile("src/data/2.txt");
@@ -247,56 +252,89 @@ async function day15() {
 async function day16() {
   const inputs = await Deno.readTextFile("src/data/16.txt");
 
-  const ast = parsePacket(inputs.trim())
+  const ast = parsePacket(inputs.trim());
 
-  const sum = sumVersions(ast)
+  const sum = sumVersions(ast);
 
-  console.log("Day16a: ", {sum})
+  console.log("Day16a: ", { sum });
 
-  const compute = computePacket(ast)
+  const compute = computePacket(ast);
 
-  console.log("Day16b: ", {compute})
-
+  console.log("Day16b: ", { compute });
 }
 
 function day17() {
-  console.log("Day17a: ", {maxy: 8256})
-  console.log("Day17b: ", {count: 2326})
+  console.log("Day17a: ", { maxy: 8256 });
+  console.log("Day17b: ", { count: 2326 });
 }
 
 async function day18() {
-
   const inputs = await readLines("src/data/18.txt");
-  const snails = inputs.map(readSnailNumber)
+  const snails = inputs.map(readSnailNumber);
 
-  const head = snails[0]
-  const tail = snails.splice(1)
+  const head = snails[0];
+  const tail = snails.splice(1);
 
-  const sum = tail.reduce((acc, snail) => addSnails(acc, snail), head)
-  const mag = magnitude(sum)
+  const sum = tail.reduce((acc, snail) => addSnails(acc, snail), head);
+  const mag = magnitude(sum);
 
-  console.log("Day18a: ", {mag})
+  console.log("Day18a: ", { mag });
 
-  const biggestPair = maxMag(inputs)
+  const biggestPair = maxMag(inputs);
 
-  console.log("Day18b: ", {biggestPair})
-
+  console.log("Day18b: ", { biggestPair });
 }
 
 async function day19() {
-
   const inputs = await Deno.readTextFile("src/data/19.txt");
 
-  const scanners = parseScanners(inputs)
-  const [allBeacons, allLocs] = discoverAllBeacons(scanners)
+  const scanners = parseScanners(inputs.trim());
+  const [allBeacons, allLocs] = discoverAllBeacons(scanners);
 
   // my computation was off by one. Distressing!
-  console.log("Day19a: ", { count: allBeacons.length })
+  console.log("Day19a: ", { count: allBeacons.length });
   // not 513, 512.
 
-  const maxDist = maxManhattenDist(allLocs)
+  const maxDist = maxManhattenDist(allLocs);
 
-  console.log("Day19b: ", { maxDist })
+  console.log("Day19b: ", { maxDist });
+}
+
+async function day20() {
+  const inputs = await Deno.readTextFile("src/data/20.txt");
+
+  const [enhancer, imageStr] = inputs.trim().split("\n\n");
+
+  const image = padImage(imageStr);
+  console.log(printImage(image));
+
+  const enhanceOne = enhanceImage(image, enhancer);
+  flipEdge(enhanceOne)
+  console.log(printImage(enhanceOne));
+  const enhanceTwo = enhanceImage(enhanceOne, enhancer);
+  console.log(printImage(enhanceTwo));  
+
+  console.log(printImage(enhanceTwo));
+
+  const litPix = countPixels(enhanceTwo);
+
+  console.log("Day20a: ", { litPix });
+
+  // do it 50 x
+  let enhanced = padImage(imageStr);
+  for (let i = 0; i < 50; i ++) {
+    enhanced = enhanceImage(enhanced, enhancer)
+
+    if (i % 2 === 0) {
+      flipEdge(enhanced)
+    }
+  }
+
+  console.log(printImage(enhanced));
+
+  const fiftyLitPix = countPixels(enhanced);
+
+  console.log("Day20b: ", {fiftyLitPix})
 
 }
 
@@ -317,4 +355,5 @@ async function day19() {
 // day16();
 // day17();
 // day18();
-day19();
+// day19();
+day20();
